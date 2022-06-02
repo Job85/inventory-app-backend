@@ -3,7 +3,7 @@ const { Schema } = require('mongoose')
 const Inventory = new Schema(
     {
         inventory_date: { type: Date, require: true },
-        department_id: { type: Schema.Types.ObjectId, ref: 'department_id' },
+        department_name: { type: String, require: true },
         item_name: { type: String, require: true },
         count: { type: Number, require: true }
     },
