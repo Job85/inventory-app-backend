@@ -3,7 +3,23 @@ const { Schema } = require('mongoose')
 const User = new Schema(
     {
         _id: { type: Schema.Types.ObjectId, default: null },
-        username: { type: String, require: true },
-        password_digest: { type: Text, require: true }
+        username: {
+            type: String,
+            require: [true, 'Please add username']
+        },
+        email: {
+            type: String,
+            require: [true, 'Please add email'],
+            unique: true
+        },
+        password: {
+            type: Text,
+            require: [true, 'Please add password']
+        }
+    },
+    {
+        timestamps: true
     }
 )
+
+module.exports = User
