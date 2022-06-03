@@ -11,7 +11,9 @@ const main = async () => {
             item_name: 'demo item',
             description: 'demo description',
             unit_measure: 'demo measure',
-            case_size: 'demo case size'
+            case_size: 'demo case size',
+            vendor_name: 'demo vendor',
+            vendor_code: 'demo code'
         }
     ]
 
