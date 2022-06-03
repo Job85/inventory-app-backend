@@ -3,6 +3,11 @@ const { Schema } = require('mongoose')
 const Item = new Schema(
     {
         _id: { type: Schema.Types.ObjectId, default: null },
+        user: {
+            type: Schema.Types.ObjectId,
+            require: true,
+            ref: 'User'
+        },
         location: { type: String, require: true },
         category: { type: String, require: true },
         item_name: { type: String, require: true },
