@@ -1,19 +1,20 @@
 const db = require('../db')
-const { Inventory, Department } = require('../models')
+const { Inventory, Item } = require('../models')
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 const banana = async () => {
-    const demoDepartment = await Department.find({ departmentTitle: 'Demo Department' })
-
     const inventories = [
         {
-            department_id: demoDepartment[0]._id
+            inventory_date: new Date,
+            department_name: 'demo department',
+            items: [],
+            count: 12
         }
     ]
 
     await Inventory.insertMany(inventories)
-    console.log('Created inventories with departments!')
+    console.log('Created inventory sheet!')
 }
 
 const run = async () => {

@@ -9,6 +9,7 @@ const Item = new Schema(
         description: { type: String, require: true },
         unit_measure: { type: String, require: true },
         case_size: { type: String, require: true },
+        count: { type: Number, require: true },
         vendor_name: { type: String, require: true },
         vendor_code: { type: String }
     },
