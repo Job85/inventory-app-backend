@@ -13,7 +13,7 @@ const User = new Schema(
             unique: true
         },
         password: {
-            type: Text,
+            type: String,
             require: [true, 'Please add password']
         }
     },
