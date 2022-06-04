@@ -1,7 +1,7 @@
 const { User } = require('../models')
 const middleware = require('../middleware')
 
-const Login = async (req, res) => {
+const login = async (req, res) => {
     try {
         const user = await User.findOne({
             where: { email: req.body.email },
@@ -25,7 +25,7 @@ const Login = async (req, res) => {
     }
 }
 
-const Register = async (req, res) => {
+const register = async (req, res) => {
     try {
         const { username, email, password } = req.body
         let passwordDigest = await middleware.hashPassword(password)
@@ -36,7 +36,7 @@ const Register = async (req, res) => {
     }
 }
 
-const UpdatePassword = async (req, res) => {
+const updatePassword = async (req, res) => {
     try {
         const { oldPassword, newPassword } = req.body
         const user = await User.findById(req.params.user_id)
@@ -57,14 +57,14 @@ const UpdatePassword = async (req, res) => {
     }
 }
 
-const CheckSession = async (req, res) => {
+const checkSession = async (req, res) => {
     const { payload } = res.locals
     res.send(payload)
 }
 
 module.exports = {
-    Login,
-    Register,
-    UpdatePassword,
-    CheckSession
+    login,
+    register,
+    updatePassword,
+    checkSession
 }
