@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -28,7 +28,7 @@ const createToken = (payload) => {
     // generates the token and encrypts it, returns the token when the process finishes
     return token
 }
-
+// demo user token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWU0OTUxMzYzNzM3ZTM2MTAyNjRkOCIsIm5hbWUiOiJEZW1vVXNlciIsImVtYWlsIjoiZGVtb0BlbWFpbC5jb20iLCJpYXQiOjE2NTQ1NDA2ODF9.hEbYroFVZwdRVvZgBcHM8HXhR6TKFg9zcPT21-Bg5g4"
 const verifyToken = (req, res, next) => {
     const { token } = res.locals
     // gets the token stored in the request lifecycle state

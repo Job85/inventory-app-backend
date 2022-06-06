@@ -10,6 +10,16 @@ const getUsername = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    try {
+        const username = await User.deleteOne({})
+        res.send(username)
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
-    getUsername
+    getUsername,
+    deleteUser
 }
