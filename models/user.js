@@ -11,7 +11,7 @@ const User = new Schema(
             require: [true, 'Please add an email'],
             unique: true
         },
-        password: {
+        passwordDigest: {
             type: String,
             require: [true, 'Please add a password']
         }
