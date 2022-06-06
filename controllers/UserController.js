@@ -1,15 +1,15 @@
 const { User } = require('../models')
 
-const getUser = async (req, res) => {
+const getUsername = async (req, res) => {
     try {
-        const user = await User.find()
-        console.log(user)
-        res.send(user)
+        const username = await User.find({}).select('username')
+        console.log(username)
+        res.send(username)
     } catch (error) {
         throw error
     }
 }
 
 module.exports = {
-    getUser
+    getUsername
 }
