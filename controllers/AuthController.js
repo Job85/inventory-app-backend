@@ -41,10 +41,12 @@ const updatePassword = async (req, res) => {
     try {
         const { oldPassword, newPassword } = req.body
         const user = await User.findById(req.params.user_id)
+        console.log(user)
+        console.log(req.params)
         if (
             user &&
             (await middleware.comparePassword(
-                user.dataValues.passwordDigest,
+                user.passwordDigest,
                 oldPassword
             ))
         ) {
