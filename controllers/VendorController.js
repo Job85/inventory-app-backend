@@ -22,7 +22,12 @@ const createVendor = async (req, res) => {
 }
 
 const updateVendor = async (req, res) => {
-    let putsVendor = await Vendor.findOneAndReplace({ _id: req.params.id })
+    let putsVendor = await Vendor.findOneAndReplace(
+        { _id: req.params.id },
+        {
+            ...req.body
+        }
+    )
     console.log('Updated Vendor!')
     res.send(putsVendor)
 }
