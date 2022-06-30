@@ -1,10 +1,11 @@
 const { User } = require('../models')
 
-const getUsername = async (req, res) => {
+const getUser = async (req, res) => {
     try {
-        const username = await User.find({}).select('username')
-        console.log(username)
-        res.send(username)
+        const user = await User.findById({ _id: req.params.id }).select('username email')
+        // const user = await User.find({}).select('username')
+        console.log("Got User")
+        res.send(user)
     } catch (error) {
         throw error
     }
@@ -20,6 +21,6 @@ const deleteUser = async (req, res) => {
 }
 
 module.exports = {
-    getUsername,
+    getUser,
     deleteUser
 }
