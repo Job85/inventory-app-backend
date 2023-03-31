@@ -26,6 +26,7 @@ app.use(logger('dev'))
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 app.use('/api', AppRouter)
 app.get('/', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'https://restaurant-inventory-77229.web.app')
     res.send('This is root!')
 })
 
