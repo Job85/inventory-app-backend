@@ -14,7 +14,11 @@ app.use(cors({
     origin:
         ['http://localhost:3000',
             'http://restaurant-inventory-77229.web.app',
-            'https://restaurant-inventory-77229.web.app'], credentials: true
+            'https://restaurant-inventory-77229.web.app'
+        ],
+    methods: 'GET,PUT,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept'
+    // credentials: true
 }))
 app.use(express.json())
 app.use(logger('dev'))
