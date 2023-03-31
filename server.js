@@ -11,7 +11,10 @@ const PORT = process.env.PORT || 3001
 
 
 app.use(cors({
-    origin: 'https://restaurant-inventory-77229.web.app'
+    origin:
+        ['http://localhost:3000',
+            'http://restaurant-inventory-77229.web.app',
+            'https://restaurant-inventory-77229.web.app'], credentials: true
 }))
 app.use(express.json())
 app.use(logger('dev'))
