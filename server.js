@@ -10,7 +10,9 @@ const PORT = process.env.PORT || 3001
 
 
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://restaurant-inventory-77229.web.app'
+}))
 app.use(express.json())
 app.use(logger('dev'))
 
