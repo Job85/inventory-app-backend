@@ -17,8 +17,8 @@ app.use(cors({
             'https://restaurant-inventory-77229.web.app'
         ],
     methods: 'GET,PUT,POST,DELETE',
-    allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept'
-    // credentials: true
+    allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept',
+    credentials: true
 }))
 app.use(express.json())
 app.use(logger('dev'))
