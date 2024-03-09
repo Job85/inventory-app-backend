@@ -9,4 +9,6 @@ Router.put('/update/:user_id',
     middleware.verifyToken,
     controller.updatePassword)
 
+Router.get('/session', middleware.stripToken, middleware.verifyToken, controller.checkSession);
+
 module.exports = Router
