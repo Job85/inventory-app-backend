@@ -28,11 +28,13 @@ const createToken = (payload) => {
     // generates the token and encrypts it, returns the token when the process finishes
     return token
 }
-// demo user token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWU0OTUxMzYzNzM3ZTM2MTAyNjRkOCIsIm5hbWUiOiJEZW1vVXNlciIsImVtYWlsIjoiZGVtb0BlbWFpbC5jb20iLCJpYXQiOjE2NTQ1NDA2ODF9.hEbYroFVZwdRVvZgBcHM8HXhR6TKFg9zcPT21-Bg5g4"
+
 const verifyToken = (req, res, next) => {
     const { token } = res.locals
+    console.log('Received Token:', token)
     // gets the token stored in the request lifecycle state
     let payload = jwt.verify(token, APP_SECRET)
+    console.log('Decoded Payload:', payload)
     // verifies the token is correct
     if (payload) {
         res.locals.payload = payload // passes the decoded payload to the next function
@@ -46,6 +48,7 @@ const verifyToken = (req, res, next) => {
 const stripToken = (req, res, next) => {
     try {
         const token = req.headers['authorization'].split(' ')[1]
+        console.log('Received Token:', token)
         // gets the token from the request headers {authorization: Bearer Some-Token}
         // splits the value of the authorization header
         if (token) {
@@ -54,12 +57,12 @@ const stripToken = (req, res, next) => {
             return next()
         }
     } catch (error) {
+        console.error('Error:', error.message)
         res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
     }
 }
 
 module.exports = {
-    // registerUser,
     stripToken,
     verifyToken,
     createToken,
