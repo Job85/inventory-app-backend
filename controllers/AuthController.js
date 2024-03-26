@@ -3,26 +3,31 @@ const middleware = require('../middleware')
 
 const login = async (req, res) => {
     try {
-        const user = await User.findOne({
-            where: { email: req.body.email },
-            raw: true
-        })
-        console.log(user.passwordDigest)
-        if (
-            user &&
-            (await middleware.comparePassword(user.passwordDigest, req.body.password))
-        ) {
-            let payload = {
-                id: user._id,
-                name: `${user.username}`,
-                email: user.email
+        const user = await User.findOne({ email: req.body.email })
+
+        if (user) {
+            console.log("Comparing passwords...");
+            const passwordMatch = await middleware.comparePassword(user.passwordDigest, req.body.password);
+
+            if (passwordMatch) {
+                console.log("Password match found. Generating token...");
+                let payload = {
+                    id: user._id,
+                    name: user.username,
+                    email: user.email
+                }
+                const token = middleware.createToken(payload)
+                return res.send({ user: payload, token })
+            } else {
+                console.log("Password does not match.");
             }
-            let token = middleware.createToken(payload)
-            return res.send({ user: payload, token })
+        } else {
+            console.log("User not found.");
         }
         res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
     } catch (error) {
-        throw error
+        console.error('Login failed:', error.message);
+        res.status(500).send({ status: 'Error', msg: 'Internal server error' });
     }
 }
 
