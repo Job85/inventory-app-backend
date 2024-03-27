@@ -62,10 +62,30 @@ const stripToken = (req, res, next) => {
     }
 }
 
+const authorizeUser = async (req, res, next) => {
+    try {
+        // fetch item based on provided user ID
+        const item = await Item.findById(req.params.id);
+        if (!item) {
+            return res.status(404).json({ msg: 'Item not found' });
+        }
+        // check if current user is owner of item
+        if (item.user.toString() !== req.user.id) {
+            return res.status(403).json({ msg: 'Forbidden - You do not have permission to perform this action' });
+        }
+        // if user is owner, proceed
+        next();
+    } catch (error) {
+        console.error('Authorization error:', error.message);
+        return res.status(500).json({ msg: 'Internal server error' });
+    }
+};
+
 module.exports = {
     stripToken,
     verifyToken,
     createToken,
     comparePassword,
-    hashPassword
+    hashPassword,
+    authorizeUser
 }
