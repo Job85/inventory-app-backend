@@ -1,5 +1,9 @@
 const Router = require('express').Router()
 const controller = require('../controllers/ItemController')
+const middleware = require('../middleware');
+
+Router.use(middleware.stripToken);
+Router.use(middleware.verifyToken);
 
 Router.get('/', controller.getItems)
 Router.get(`/:id`, controller.getItemById)
