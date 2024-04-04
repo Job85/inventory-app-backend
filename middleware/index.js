@@ -23,42 +23,49 @@ const comparePassword = async (storedPassword, password) => {
 }
 
 const createToken = (payload) => {
-    // accepts a payload with which to create the token
-    let token = jwt.sign(payload, APP_SECRET)
-    // generates the token and encrypts it, returns the token when the process finishes
-    return token
+    // Set expiration time to  1  hour from current time
+    const expirationTime = Math.floor(Date.now() / 1000) + (60 * 60);
+
+    //  Add expiration time to the payload
+    payload.exp = expirationTime;
+
+    // Generate the token with the payload and secret
+    const token = jwt.sign(payload, APP_SECRET, { algorithm: 'HS256' });
+
+    return token;
 }
 
 const verifyToken = (req, res, next) => {
     const { token } = res.locals
-    console.log('Received Token:', token)
-    // gets the token stored in the request lifecycle state
-    let payload = jwt.verify(token, APP_SECRET)
-    console.log('Decoded Payload:', payload)
-    // verifies the token is correct
-    if (payload) {
-        res.locals.payload = payload // passes the decoded payload to the next function
 
-        // calls the next function if the token is valid
-        return next()
+    try {
+        const payload = jwt.verify(token, APP_SECRET, { algorithm: 'HS256' });
+
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        if (payload.exp && payload.exp < currentTimestamp) {
+            return res.status(401).json({ status: 'Error', msg: 'Token has expired' });
+        }
+        res.locals.payload = payload // passes the decoded payload to the next function
+        return next();
+    } catch (error) {
+        console.error('Error in verifyToken middleware:', error);
+        return res.status(401).json({ status: 'Error', msg: 'Invalid token', error: error.message });
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
 }
 
 const stripToken = (req, res, next) => {
     try {
-        const token = req.headers['authorization'].split(' ')[1]
-        console.log('Received Token:', token)
-        // gets the token from the request headers {authorization: Bearer Some-Token}
-        // splits the value of the authorization header
-        if (token) {
+        const authorizationHeader = req.headers['authorization'];
+        if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+            const token = authorizationHeader.split(' ')[1];
             res.locals.token = token
             // if the token exists we add it to the request lifecycle state
-            return next()
+            return next();
         }
+        throw new Error('Authorization header is missing or invalid');
     } catch (error) {
-        console.error('Error:', error.message)
-        res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+        console.error('Error in stripToken middleware:', error);
+        res.status(401).send({ status: 'Error', message: 'Unauthorized', error: error.message });
     }
 }
 
